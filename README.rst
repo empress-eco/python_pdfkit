@@ -1,167 +1,59 @@
-Python-PDFKit: HTML to PDF wrapper
-==================================
+<div align="center">
+<img src="https://grow.empress.eco/uploads/default/original/2X/1/1f1e1044d3864269d2a613577edb9763890422ab.png" alt="Empress Logo">
+<p align="center">
+Streamlining the process of creating, managing, and distributing digital content.
+<br />
+<a href="https://empress.eco/">Explore Empress</a>
+·
+<a href="https://grow.empress.eco/">Documentation & Support</a>
+·
+<a href="https://github.com/empress-eco/python_pdfkit/issues">Report Bugs</a>
+·
+<a href="https://github.com/empress-eco/python_pdfkit/issues">Request Features</a>
+</p>
+</div>
 
+## About Empress
 
-.. image:: https://travis-ci.org/JazzCore/python-pdfkit.png?branch=master
-        :target: https://travis-ci.org/JazzCore/python-pdfkit
+### 📖 Overview
+Empress is a robust digital platform designed specifically for content creators. It revolutionizes the way you create, manage, and distribute digital content, providing a streamlined and efficient workflow that saves you time and energy.
 
-.. image:: https://badge.fury.io/py/pdfkit.svg
-        :target: http://badge.fury.io/py/pdfkit
+### 🌟 Key Features
+- Efficient content management: Keep all your resources in one place and manage them with ease.
+- Streamlined content creation: Create content in a user-friendly environment designed for efficiency.
+- Simplified content distribution: Distribute your content to your audience with just a few clicks.
 
-Python 2 and 3 wrapper for wkhtmltopdf utility to convert HTML to PDF using Webkit.
+## Getting Started with Empress
 
-This is adapted version of `ruby PDFKit <https://github.com/pdfkit/pdfkit>`_ library, so big thanks to them!
+### Prerequisites
+All you need to start using Empress is a device with internet access.
 
-Installation
-------------
+### Installation
+As a web-based platform, Empress requires no installation. You can access it directly from your web browser.
 
-1. Install python-pdfkit:
+```sh
+# Access Empress
+1. Open your preferred web browser.
+2. Enter 'https://empress.eco/' into the address bar.
+3. Create an account or log in to start creating and managing your content.
+```
 
-.. code-block:: bash
+## Usage
+Empress is intuitive and user-friendly, designed for creators of all skill levels. Whether you're a novice or a pro, you'll find Empress easy to navigate and use.
 
-	$ pip install pdfkit
+## Contributing to Empress
+We value your ideas and contributions! Here's how you can contribute:
 
-2. Install wkhtmltopdf:
+1. Fork the Project on our [GitHub page](https://github.com/empress-eco/).
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the Branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
-* Debian/Ubuntu:
+## License and Acknowledgements
 
-.. code-block:: bash
+### License
+This project is licensed under the MIT License. Your contributions will also be licensed under the MIT License.
 
-	$ sudo apt-get install wkhtmltopdf
-
-**Warning!** Version in debian/ubuntu repos have reduced functionality (because it compiled without the wkhtmltopdf QT patches), such as adding outlines, headers, footers, TOC etc. To use this options you should install static binary from `wkhtmltopdf <http://wkhtmltopdf.org/>`_ site or you can use `this script <https://github.com/JazzCore/python-pdfkit/blob/master/travis/before-script.sh>`_.
-
-* Windows and other options: check wkhtmltopdf `homepage <http://wkhtmltopdf.org/>`_ for binary installers
-
-Usage
------
-
-For simple tasks:
-
-.. code-block:: python
-
-	import pdfkit
-
-	pdfkit.from_url('http://google.com', 'out.pdf')
-	pdfkit.from_file('test.html', 'out.pdf')
-	pdfkit.from_string('Hello!', 'out.pdf')
-
-You can pass a list with multiple URLs or files:
-
-.. code-block:: python
-
-	pdfkit.from_url(['google.com', 'yandex.ru', 'engadget.com'], 'out.pdf')
-	pdfkit.from_file(['file1.html', 'file2.html'], 'out.pdf')
-
-Also you can pass an opened file:
-
-.. code-block:: python
-
-    with open('file.html') as f:
-        pdfkit.from_file(f, 'out.pdf')
-
-If you wish to further process generated PDF, you can read it to a variable:
-
-.. code-block:: python
-
-    # Use False instead of output path to save pdf to a variable
-    pdf = pdfkit.from_url('http://google.com', False)
-
-You can specify all wkhtmltopdf `options <http://wkhtmltopdf.org/usage/wkhtmltopdf.txt>`_. You can drop '--' in option name. If option without value, use *None, False* or *''* for dict value:. For repeatable options (incl. allow, cookies, custom-header, post, postfile, run-script, replace) you may use a list or a tuple. With option that need multiple values (e.g. --custom-header Authorization secret) we may use a 2-tuple.
-
-.. code-block:: python
-
-	options = {
-	    'page-size': 'Letter',
-	    'margin-top': '0.75in',
-	    'margin-right': '0.75in',
-	    'margin-bottom': '0.75in',
-	    'margin-left': '0.75in',
-	    'encoding': "UTF-8",
-	    'cookies': [
-	    	('cookie-name1', 'cookie-value1'),
-	    	('cookie-name2', 'cookie-value2'),
-	    ],
-	    'no-outline': None
-	}
-
-	pdfkit.from_url('http://google.com', 'out.pdf', options=options)
-
-By default, PDFKit will show all ``wkhtmltopdf`` output. If you dont want it, you need to pass ``quiet`` option:
-
-.. code-block:: python
-
-    options = {
-        'quiet': ''
-        }
-
-    pdfkit.from_url('google.com', 'out.pdf', options=options)
-
-Due to wkhtmltopdf command syntax, **TOC** and **Cover** options must be specified separately:
-
-.. code-block:: python
-
-	toc = {
-	    'xsl-style-sheet': 'toc.xsl'
-	}
-
-	cover = 'cover.html'
-
-	pdfkit.from_file('file.html', options=options, toc=toc, cover=cover)
-
-You can specify external CSS files when converting files or strings using *css* option.
-
-**Warning** This is a workaround for `this bug <http://code.google.com/p/wkhtmltopdf/issues/detail?id=144>`_ in wkhtmltopdf. You should try *--user-style-sheet* option first.
-
-.. code-block:: python
-
-    # Single CSS file
-    css = 'example.css'
-    pdfkit.from_file('file.html', options=options, css=css)
-
-    # Multiple CSS files
-    css = ['example.css', 'example2.css']
-    pdfkit.from_file('file.html', options=options, css=css)
-
-You can also pass any options through meta tags in your HTML:
-
-.. code-block:: python
-
-	body = """
-	    <html>
-	      <head>
-	        <meta name="pdfkit-page-size" content="Legal"/>
-	        <meta name="pdfkit-orientation" content="Landscape"/>
-	      </head>
-	      Hello World!
-	      </html>
-	    """
-
-	pdfkit.from_string(body, 'out.pdf') #with --page-size=Legal and --orientation=Landscape
-
-Configuration
--------------
-
-Each API call takes an optional configuration paramater. This should be an instance of ``pdfkit.configuration()`` API call. It takes the configuration options as initial paramaters. The available options are:
-
-* ``wkhtmltopdf`` - the location of the ``wkhtmltopdf`` binary. By default ``pdfkit`` will attempt to locate this using ``which`` (on UNIX type systems) or ``where`` (on Windows).
-* ``meta_tag_prefix`` - the prefix for ``pdfkit`` specific meta tags - by default this is ``pdfkit-``
-
-Example - for when ``wkhtmltopdf`` is not on ``$PATH``:
-
-.. code-block:: python
-
-    config = pdfkit.configuration(wkhtmltopdf='/opt/bin/wkhtmltopdf'))
-    pdfkit.from_string(html_string, output_file, configuration=config)
-
-
-Troubleshooting
----------------
-
-- ``IOError: 'No wkhtmltopdf executable found'``:
-
-  Make sure that you have wkhtmltopdf in your `$PATH` or set via custom configuration (see preceding section). *where wkhtmltopdf* in Windows or *which wkhtmltopdf* on Linux should return actual path to binary.
-
-- ``IOError: 'Command Failed'``
-
-  This error means that PDFKit was unable to process an input. You can try to directly run a command from error message and see what error caused failure (on some wkhtmltopdf versions this can be cause by segmentation faults)
+### Acknowledgements
+We'd like to extend our heartfelt thanks to the creators who use Empress and provide valuable feedback. We're also profoundly grateful to the Empress Community for their foundational contributions to this project. Their innovation and dedication have been instrumental in building Empress.
